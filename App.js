@@ -1,13 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
+// package dependencies
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+const Tab = createBottomTabNavigator();
+import { MaterialCommunityIcons, AntDesign, FontAwesome } from '@expo/vector-icons';
+
+// components
+import Profile from './src/Profile/Profile.js';
+import Social from './src/Social/Social.js';
+import Timer from './src/Timer/Timer.js';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Social"
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            let iconName;
+
+            if (route.name === 'Social') {
+              iconName = focused
+                ? <MaterialCommunityIcons name="fishbowl" size={24} color="black" />
+                : <MaterialCommunityIcons name="fishbowl-outline" size={24} color="black" />;
+            } else if (route.name === 'Timer') {
+              iconName = focused 
+                ? <AntDesign name="clockcircle" size={24} color="black" /> 
+                : <AntDesign name="clockcircleo" size={24} color="black" />;
+            } else if (route.name === 'Profile') {
+              iconName = focused
+                ? <FontAwesome name="user" size={24} color="black" />
+                : <AntDesign name="user" size={24} color="black" />
+            }
+
+            // You can return any component that you like here!
+            return iconName;
+          },
+        })}
+      >
+        <Tab.Screen name="Social" component={Social} />
+        <Tab.Screen name="Timer" component={Timer} />
+        <Tab.Screen name="Profile" component={Profile} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
