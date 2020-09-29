@@ -4,13 +4,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 let {height, width} = Dimensions.get('window');
 
-const Fish = () => {
+const Fish = (props) => {
 
   const [fishAnimation, setFishAnimation] = useState(new Animated.Value(0));
   const [animationStarted, setAnimationStarted] = useState(false);
   
-  const fishSize = Math.random() * 40 + 20 
-
   const animateFish = () => {
     Animated.timing(fishAnimation, {
       toValue: 1,
@@ -22,22 +20,23 @@ const Fish = () => {
     setAnimationStarted(true);
   }
 
-  const random1 = Math.random();
-  const random2 = Math.random();
-
-  const preAnimatedFish = {
-    position: 'absolute',
-    top: random1 * height,
-    left: random2 * width
-  }
-
   const fishPosition = {
+    position: 'absolute',
+    top: props.random1 * height,
+    left: props.random2 * width,
     transform: [{
       translateY: fishAnimation.interpolate({
         inputRange: [0, 1],
         outputRange: [0, 200]
       })
-    }]
+    },
+    {
+      translateX: fishAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 200]
+      })
+    }   
+  ]
   }
 
   useEffect(() => {
@@ -47,8 +46,8 @@ const Fish = () => {
   }, [])
 
   return (
-    <Animated.View style={[preAnimatedFish, fishPosition]}>
-      <FontAwesome5 name="fish" size={fishSize} color="black" />
+    <Animated.View style={fishPosition}>
+      <FontAwesome5 name="fish" size={props.fishSize} color="black" />
     </Animated.View>
   );
 }; 
