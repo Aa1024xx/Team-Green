@@ -5,13 +5,9 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 let {height, width} = Dimensions.get('window');
 
-
 const Fish = () => {
-  const rand = Math.random(-1, 1);
-  const rand1 = Math.random(-1, 1);
-
   return (
-  <FontAwesome5 name="fish" size={24} color="black" style={{position:"absolute", top: rand * (height * 0.25) + height * 0.5, left: rand1 * (width * 0.8) + 200}} />
+  <FontAwesome5 name="fish" size={24} color="black" style={styles.fish} />
   )
 }; 
 
@@ -19,9 +15,9 @@ const Fish = () => {
 const styles = StyleSheet.create({
     fish: {
         position:"absolute", 
-        top: Math.random() * height, 
-        left: Math.random() * width
+        top: Math.random() * (height / 2), 
+        left: Math.random() * (width / 2)
     }
-});
+  });
 
 export default Fish;
