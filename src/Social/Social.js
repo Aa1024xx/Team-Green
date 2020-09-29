@@ -4,15 +4,19 @@ import Fish from './Fish.js';
 
 const Social = () => {
 
-  const FishArray = ({arr}) => {
+  const [fishArray, setFishArray] = useState(['', '', '', '', '', '', '', ''])
+
+  const renderFish = () => {
     return (
-       <View> {arr.map(e => <Fish />)} </View>
+      fishArray.map()
     );
-  };
+  }
 
   return (
     <View style={styles.container}>
-      <FishArray arr={[1, 2]}/>
+      {fishArray.map((fish) => (
+        <Fish />
+      ))}
     </View>
   );
 }
@@ -21,8 +25,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'lightblue',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center'
   },
 });
 
