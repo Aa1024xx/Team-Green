@@ -11,11 +11,11 @@ const Fish = (props) => {
   
   const animateFish = () => {
     Animated.timing(fishAnimation, {
-      toValue: 1,
+      toValue: fishAnimation._value + 1,
       duration: 1000,
       useNativeDriver: true
     }).start(() => {
-      setFishAnimation(new Animated.Value(0));
+      animateFish();
     });
     setAnimationStarted(true);
   }
