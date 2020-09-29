@@ -13,9 +13,17 @@ const Social = () => {
   return (
     <View style={styles.container}>
       <FishArray arr={[1, 2]}/>
-      <StatusBar style="auto" />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'lightblue',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Social;
