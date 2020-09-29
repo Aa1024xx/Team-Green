@@ -16,7 +16,9 @@ const Fish = () => {
       toValue: 1,
       duration: 1000,
       useNativeDriver: true
-    }).start();
+    }).start(() => {
+      setFishAnimation(new Animated.Value(0));
+    });
     setAnimationStarted(true);
   }
 
@@ -30,9 +32,11 @@ const Fish = () => {
   }
 
   const fishPosition = {
-    position: 'absolute',
     transform: [{
-      translateY: fishAnimation * 100
+      translateY: fishAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 200]
+      })
     }]
   }
 
@@ -43,7 +47,7 @@ const Fish = () => {
   }, [])
 
   return (
-    <Animated.View style={animationStarted ? fishPosition : preAnimatedFish}>
+    <Animated.View style={[preAnimatedFish, fishPosition]}>
       <FontAwesome5 name="fish" size={fishSize} color="black" />
     </Animated.View>
   );
