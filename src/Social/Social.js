@@ -4,7 +4,7 @@ import Fish from './Fish.js';
 
 const Social = () => {
 
-  const [fishArray, setFishArray] = useState(['', '', '', '', '', '', '', ''])
+  const [fishArray, setFishArray] = useState(['', '', '', '', '', '', '', '', '','', '', '', '', '', '', ''])
 
   const renderFish = () => {
 
@@ -22,8 +22,8 @@ const Social = () => {
 
   return (
     <View style={styles.container}>
-      {fishArray.map((fish) => (
-        <RenderFish />
+      {fishArray.map((fish, index) => (
+        <RenderFish key={index} />
       ))}
     </View>
   );
