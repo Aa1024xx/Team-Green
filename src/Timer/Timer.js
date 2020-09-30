@@ -5,18 +5,23 @@ const Timer = () => {
   const [time, setTime] = useState(0)
   const [pause, setPause] = useState(true)
   const [disabled, setDisabled] = useState(false)
+  const [completedTask, setCompletedTask] = useState(false)
 
   useEffect(() => {
-    if (!pause) {
+    if (time===0 && !pause){
+      setPause(true)
+      setCompletedTask(true)
+    }
+    else if (!pause) {
       setTimeout(() => {
         const tempTime = time - 1
         setTime(tempTime);
-      }, 1000)
+      }, 50)
     }
   }, [time])
 
   function startTimer() {
-    setTime(25 * 60);
+    setTime(2 * 60);
     setPause(!pause);
     setDisabled(true)
   }
@@ -28,6 +33,7 @@ const Timer = () => {
       <TouchableOpacity style={styles.buttonBase} disabled={disabled} onPress={() => { startTimer() }}>
         <Text style={styles.startButton}>Start</Text>
       </TouchableOpacity>
+      {completedTask && <Text>Task complete!</Text>}
     </View>
   )
 }
@@ -56,8 +62,6 @@ const styles = StyleSheet.create({
     maxWidth: 90,
     backgroundColor: '#004a99'
 }
-
-
 });
 
 
