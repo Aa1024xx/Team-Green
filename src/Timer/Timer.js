@@ -25,7 +25,7 @@ const Timer = () => {
     <View style={styles.timer}>
       {time === 0 && <Text style={styles.timerText}>00:00</Text>}
       {time !== 0 && <Text style={styles.timerText}>{Math.floor(time / 60)}:{(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2 })}</Text>}
-      <TouchableOpacity disabled={disabled} onPress={() => { startTimer() }}>
+      <TouchableOpacity style={styles.buttonBase} disabled={disabled} onPress={() => { startTimer() }}>
         <Text style={styles.startButton}>Start</Text>
       </TouchableOpacity>
     </View>
@@ -44,7 +44,19 @@ const styles = StyleSheet.create({
   },
   startButton: {
     fontSize: 38
-  }
+  },
+  buttonBase : {
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+    height: 60,
+    padding: 10,
+    minWidth: 90,
+    maxWidth: 90,
+    backgroundColor: '#004a99'
+}
+
 
 });
 
