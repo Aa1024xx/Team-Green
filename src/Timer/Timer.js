@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import UserContext from "../UserContext"
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
 
 const Timer = () => {
@@ -9,6 +10,8 @@ const Timer = () => {
   const [isPaused, setIsPaused] = useState(true);
   const [completedTask, setCompletedTask] = useState(false);
   const [isStopped, setIsStopped] = useState(true);
+
+  const timerDuration = 60 * 25; 
 
   useEffect(() => {
     if (time===0 && !isPaused){
@@ -19,19 +22,19 @@ const Timer = () => {
       setTimeout(() => {
         const tempTime = time - 1;
         setTime(tempTime);
-      }, 5)
+      }, 1000)
     }
-  }, [isPaused, time]);
+  }, [time, isPaused]);
 
   function startTimer() {
-    setTime(25 * 60);
+    setTime(timerDuration);
     setIsPaused(!isPaused);
     setIsStopped(false);
     setCompletedTask(false);
   }
 
   function stopTimer(){
-    setTime(25 * 60);
+    setTime(timerDuration);
     setIsPaused(true);
     setIsStopped(true);
     setCompletedTask(false);
@@ -45,21 +48,33 @@ const Timer = () => {
 
   return (
     <View style={styles.timer}>
-      <Text style={styles.timerText}>{isStopped ? "25:00" : displayTime(time) }</Text>
+       <CountdownCircleTimer
+        key={isStopped || time=== 0}
+        isPlaying={!isPaused}
+        duration={timerDuration}
+        colors={[
+        ['#004777', 0.33],
+        ['#9966FF', 0.33],
+        ['#0066FF', 0.33],
+        ]}
+        size={300}
+        >
+          <Text style={styles.timerText}>{isStopped ? "25:00" : displayTime(time) }</Text>
+      </CountdownCircleTimer>
 
       {isStopped &&
       <TouchableOpacity style={styles.buttonBase} onPress={() => { startTimer() }}>
         <Text>Start</Text>
       </TouchableOpacity>}
       
-      {!isStopped && 
+      {!isStopped && !completedTask && 
       <TouchableOpacity style={styles.buttonBase} onPress={() => setIsPaused(!isPaused)}>
         <Text>{isPaused ? "Resume" : "Pause"}</Text>
       </TouchableOpacity>}
 
       {!isStopped && 
       <TouchableOpacity style={styles.buttonBase} onPress={() => stopTimer()}>
-        <Text>Stop</Text>
+        <Text>Restart</Text>
       </TouchableOpacity>}
 
       {completedTask && <Text>Task complete! You've got a new fish!</Text>}
