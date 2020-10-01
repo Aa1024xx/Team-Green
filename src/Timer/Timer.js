@@ -4,61 +4,68 @@ import UserContext from "../UserContext"
 
 
 const Timer = () => {
-  const [time, setTime] = useState(0)
-  const [isPaused, setIsPaused] = useState(true)
-  const [completedTask, setCompletedTask] = useState(false)
-  const [isStopped, setIsStopped] = useState(true)
   const user = useContext(UserContext);
-  console.log(user)
+  const [time, setTime] = useState(0);
+  const [isPaused, setIsPaused] = useState(true);
+  const [completedTask, setCompletedTask] = useState(false);
+  const [isStopped, setIsStopped] = useState(true);
+
   useEffect(() => {
     if (time===0 && !isPaused){
-      setIsPaused(true)
-      setCompletedTask(true)
+      setIsPaused(true);
+      setCompletedTask(true);
     }
     else if (!isPaused) {
       setTimeout(() => {
-        const tempTime = time - 1
+        const tempTime = time - 1;
         setTime(tempTime);
       }, 5)
     }
-  }, [isPaused, time])
+  }, [isPaused, time]);
 
   function startTimer() {
     setTime(25 * 60);
     setIsPaused(!isPaused);
-    setIsStopped(false)
-    setCompletedTask(false)
+    setIsStopped(false);
+    setCompletedTask(false);
   }
+
   function stopTimer(){
     setTime(25 * 60);
     setIsPaused(true);
-    setIsStopped(true)
-    setCompletedTask(false)
+    setIsStopped(true);
+    setCompletedTask(false);
   }
 
-  function displayTime (time){
-    const tempMinutes = Math.floor(time / 60).toLocaleString('en-US', { minimumIntegerDigits: 2 })
-    const tempSeconds = (time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2 })
-    return `${tempMinutes}:${tempSeconds}`
+  const displayTime = (time) => {
+    const tempMinutes = Math.floor(time / 60).toLocaleString('en-US', { minimumIntegerDigits: 2 });
+    const tempSeconds = (time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2 });
+    return `${tempMinutes}:${tempSeconds}`;
   }
+
   return (
     <View style={styles.timer}>
-      <Text style={styles.timerText}>{isStopped? "25:00" : displayTime(time) }</Text>
+      <Text style={styles.timerText}>{isStopped ? "25:00" : displayTime(time) }</Text>
 
-      {isStopped &&<TouchableOpacity style={styles.buttonBase} onPress={() => { startTimer() }}>
-        <Text style={styles.startButton}>Start</Text>
+      {isStopped &&
+      <TouchableOpacity style={styles.buttonBase} onPress={() => { startTimer() }}>
+        <Text>Start</Text>
       </TouchableOpacity>}
       
-      {!isStopped && <TouchableOpacity onPress={() => setIsPaused(!isPaused)}>
-        {isPaused ? "Resume" : "Pause"}
+      {!isStopped && 
+      <TouchableOpacity style={styles.buttonBase} onPress={() => setIsPaused(!isPaused)}>
+        <Text>{isPaused ? "Resume" : "Pause"}</Text>
       </TouchableOpacity>}
-      {!isStopped && <TouchableOpacity onPress={() => stopTimer()}>Stop</TouchableOpacity>}
 
-      {completedTask && <Text>Task complete!</Text>}
-      <Text>{user.fish}</Text>
+      {!isStopped && 
+      <TouchableOpacity style={styles.buttonBase} onPress={() => stopTimer()}>
+        <Text>Stop</Text>
+      </TouchableOpacity>}
+
+      {completedTask && <Text>Task complete! You've got a new fish!</Text>}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   timer: {
