@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import Fish from './Fish.js';
 import UserContext from "../UserContext"
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const Social = () => {
   const user = useContext(UserContext);
@@ -34,14 +35,15 @@ const Social = () => {
       paddingTop: 13,
       paddingHorizontal: 10,
       paddingBottom: 12,
-      backgroundColor: 'white',
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
       top: 0,
       borderRadius: 25,
+      marginLeft: 20,
+      marginRight: 20,
     },
     viewContainer: {
-      backgroundColor: 'red',
-      top: '-40%',
-      borderRadius: 25,
+      top: '-30%',
+      borderRadius: 25
     },
     inputAndroid: {
       color: 'black',
@@ -74,12 +76,14 @@ const Social = () => {
   return (
     
     <View style={styles.container}>
-    <RNPickerSelect 
-        style={pickerStyle}
-        onValueChange={(itemValue) => changeFishTank(itemValue)}
-        items={getFriendsList(user.friends)}
-        placeholder={{}}
-      />
+      <View style={styles.pickerContainer}>
+        <RNPickerSelect 
+          style={pickerStyle}
+          onValueChange={(itemValue) => changeFishTank(itemValue)}
+          items={getFriendsList(user.friends)}
+          placeholder={{}}
+        />
+      </View>
       {fishArray.map((fish, index) => (
         <RenderFish key={index} />
       ))}
@@ -100,24 +104,24 @@ const RenderFish = () => {
 }
 
 const styles = StyleSheet.create({
+  pickerContainer: {
+    shadowColor: 'white',
+    shadowOffset: {
+      width: 4,
+      height: 0,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    top: '-35%',
+    width: SCREEN_WIDTH - 50
+  },
   container: {
     flex: 1,
     backgroundColor: 'lightblue',
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  dropDown: {
-    height: 50, 
-    width: '25%', 
-    position: 'absolute',
-    top: 0, 
-    alignItems: 'center',
-    borderRadius: 25,
-    marginTop: 10
-  },
-  dropDownItem: {
-    alignItems: 'center'
-  },
+  }
 });
 
 export default Social;
