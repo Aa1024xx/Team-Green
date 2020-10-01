@@ -1,0 +1,46 @@
+{
+  "users" : {
+    "1a" : {
+      "fish" : 11,
+      "friends" : {
+        "1c" : "Fred Jones",
+        "1d" : "Velma Dinkley"
+      },
+      "id" : "1a",
+      "name" : "Shaggy Rogers"
+    },
+    "1b" : {
+      "fish" : 5,
+      "friends" : 0,
+      "id" : "1b",
+      "name" : "Scooby Doo"
+    },
+    "1c" : {
+      "fish" : 0,
+      "friends" : {
+        "1a" : "Shaggy Rogers",
+        "1d" : "Velma Dinkley"
+      },
+      "id" : "1c",
+      "name" : "Fred Jones"
+    },
+    "1d" : {
+      "fish" : 8,
+      "friends" : {
+        "1a" : "Shaggy Rogers",
+        "1c" : "Fred Jones",
+        "1e" : "Daphne Blake"
+      },
+      "id" : "1d",
+      "name" : "Velma Dinkley"
+    },
+    "1e" : {
+      "fish" : 1,
+      "friends" : {
+        "1d" : "Velma Dinkley"
+      },
+      "id" : "1e",
+      "name" : "Daphne Blake"
+    }
+  }
+}
