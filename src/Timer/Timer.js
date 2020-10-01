@@ -1,39 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import UserContext from "../UserContext"
+
 
 const Timer = () => {
   const [time, setTime] = useState(0)
-  const [pause, setPause] = useState(true)
-  const [disabled, setDisabled] = useState(false)
+  const [isPaused, setIsPaused] = useState(true)
   const [completedTask, setCompletedTask] = useState(false)
-
+  const [isStopped, setIsStopped] = useState(true)
+  const user = useContext(UserContext);
+  console.log(user)
   useEffect(() => {
-    if (time===0 && !pause){
-      setPause(true)
+    if (time===0 && !isPaused){
+      setIsPaused(true)
       setCompletedTask(true)
     }
-    else if (!pause) {
+    else if (!isPaused) {
       setTimeout(() => {
         const tempTime = time - 1
         setTime(tempTime);
-      }, 50)
+      }, 5)
     }
-  }, [time])
+  }, [isPaused, time])
 
   function startTimer() {
-    setTime(2 * 60);
-    setPause(!pause);
-    setDisabled(true)
+    setTime(25 * 60);
+    setIsPaused(!isPaused);
+    setIsStopped(false)
+    setCompletedTask(false)
+  }
+  function stopTimer(){
+    setTime(25 * 60);
+    setIsPaused(true);
+    setIsStopped(true)
+    setCompletedTask(false)
   }
 
+  function displayTime (time){
+    const tempMinutes = Math.floor(time / 60).toLocaleString('en-US', { minimumIntegerDigits: 2 })
+    const tempSeconds = (time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2 })
+    return `${tempMinutes}:${tempSeconds}`
+  }
   return (
     <View style={styles.timer}>
-      {time === 0 && <Text style={styles.timerText}>00:00</Text>}
-      {time !== 0 && <Text style={styles.timerText}>{Math.floor(time / 60)}:{(time % 60).toLocaleString('en-US', { minimumIntegerDigits: 2 })}</Text>}
-      <TouchableOpacity style={styles.buttonBase} disabled={disabled} onPress={() => { startTimer() }}>
+      <Text style={styles.timerText}>{isStopped? "25:00" : displayTime(time) }</Text>
+
+      {isStopped &&<TouchableOpacity style={styles.buttonBase} onPress={() => { startTimer() }}>
         <Text style={styles.startButton}>Start</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
+      
+      {!isStopped && <TouchableOpacity onPress={() => setIsPaused(!isPaused)}>
+        {isPaused ? "Resume" : "Pause"}
+      </TouchableOpacity>}
+      {!isStopped && <TouchableOpacity onPress={() => stopTimer()}>Stop</TouchableOpacity>}
+
       {completedTask && <Text>Task complete!</Text>}
+      <Text>{user.fish}</Text>
     </View>
   )
 }
@@ -63,8 +85,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#004a99'
 }
 });
-
-
-
 
 export default Timer;

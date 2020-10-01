@@ -1,10 +1,12 @@
 // package dependencies
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import { MaterialCommunityIcons, AntDesign, FontAwesome } from '@expo/vector-icons';
+import { createContext } from 'react';
+import UserContext from "./src/UserContext"
 
 // components
 import Profile from './src/Profile/Profile.js';
@@ -12,7 +14,9 @@ import Social from './src/Social/Social.js';
 import Timer from './src/Timer/Timer.js';
 
 export default function App() {
+  const [user, setUser] = useState({name: "John", fish: 5});
   return (
+    <UserContext.Provider value={user}>
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Social"
@@ -44,6 +48,7 @@ export default function App() {
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 
