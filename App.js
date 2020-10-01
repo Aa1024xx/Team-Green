@@ -14,7 +14,7 @@ import Social from './src/Social/Social.js';
 import Timer from './src/Timer/Timer.js';
 
 export default function App() {
-  const [user, setUser] = useState({name: "John", fish: 5});
+  const [user, setUser] = useState({name: "John", fish: 5, friends: ["Amanda", "Mike"]});
   return (
     <UserContext.Provider value={user}>
     <NavigationContainer>
