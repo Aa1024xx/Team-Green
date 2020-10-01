@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, Picker } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Fish from './Fish.js';
 import UserContext from "../UserContext"
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 
 
 const Social = () => {
@@ -11,22 +12,74 @@ const Social = () => {
 
   function changeFishTank(itemValue) {
     setSelectedValue(itemValue);
-    setFishArray(new Array(10).fill(0));
+    if (itemValue === "John"){
+      setFishArray(new Array(itemValue.fish).fill(0));
+    }
+    else{
+      setFishArray(new Array(8).fill(0));
+    }
   }
 
-  return (
-    <View style={styles.container}>
-      <Picker
-        selectedValue={selectedValue}
-        style={styles.dropDown}
-        onValueChange={(itemValue) => changeFishTank(itemValue)}
-        itemStyle={styles.dropDownItem}
-      >
-        {user.friends.map((friend, index) => (
-          <Picker.Item key={index} label={friend} value={friend} />
-        ))}
-      </Picker>
+  function getFriendsList(friends) {
+    let friendArr = [];
+    friendArr.push({label: user.name, value: user.name});
+    for(let i = 0; i < friends.length; i++){
+      friendArr.push({label: friends[i], value: friends[i]});
+    }
+    return friendArr;
+  }
 
+  const pickerStyle = {
+    inputIOS: {
+      paddingTop: 13,
+      paddingHorizontal: 10,
+      paddingBottom: 12,
+      backgroundColor: 'white',
+      top: 0,
+      borderRadius: 25,
+    },
+    viewContainer: {
+      backgroundColor: 'red',
+      top: '-40%',
+      borderRadius: 25,
+    },
+    inputAndroid: {
+      color: 'black',
+      backgroundColor: 'white'
+    },
+    inputWeb: {
+      color: 'black',
+      backgroundColor: 'white',
+      marginTop: '-5%', 
+      margin: 'auto',
+      width: '50%',
+      borderRadius: 25,
+    }, 
+    underline: { borderTopWidth: 5 },
+    icon: {
+      backgroundColor: 'grey',
+      borderTopWidth: 5,
+      borderTopColor: '#00000099',
+      borderRightWidth: 5,
+      borderRightColor: 'grey',
+      borderLeftWidth: 5,
+      borderLeftColor: 'grey',
+      width: 0,
+      height: 0,
+      top: -250,
+      right: 15,
+    },
+  };
+
+  return (
+    
+    <View style={styles.container}>
+    <RNPickerSelect 
+        style={pickerStyle}
+        onValueChange={(itemValue) => changeFishTank(itemValue)}
+        items={getFriendsList(user.friends)}
+        placeholder={{}}
+      />
       {fishArray.map((fish, index) => (
         <RenderFish key={index} />
       ))}
@@ -57,9 +110,10 @@ const styles = StyleSheet.create({
     height: 50, 
     width: '25%', 
     position: 'absolute',
+    top: 0, 
     alignItems: 'center',
     borderRadius: 25,
-    marginTop: 5
+    marginTop: 10
   },
   dropDownItem: {
     alignItems: 'center'
