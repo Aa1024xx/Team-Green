@@ -18,8 +18,9 @@ const Social = () => {
     <View style={styles.container}>
       <Picker
         selectedValue={selectedValue}
-        style={styles.dropdown}
+        style={styles.dropDown}
         onValueChange={(itemValue) => changeFishTank(itemValue)}
+        itemStyle={styles.dropDownItem}
       >
         {user.friends.map((friend, index) => (
           <Picker.Item key={index} label={friend} value={friend} />
@@ -52,9 +53,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  dropdown: {
-    height: 50, width: 150, position: "absolute",
-    top: 0, alignItems: "center"
+  dropDown: {
+    height: 50, 
+    width: '25%', 
+    position: 'absolute',
+    alignItems: 'center',
+    borderRadius: 25,
+    marginTop: 5
+  },
+  dropDownItem: {
+    alignItems: 'center'
   },
 });
 
