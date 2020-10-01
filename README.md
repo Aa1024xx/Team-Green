@@ -60,4 +60,4 @@ This will run `expo build:web`. You can then run `firebase deploy` to deploy the
 ## Test Data
 The Real Time Database currently has some test data for users. 
 
-To make it easier to see what the data is, there is a json copy of it in ***test_data/user.json***.
+To make it easier to see what the data is, there is a json copy of it in ***test_data/users.json***.
