@@ -131,7 +131,12 @@ const styles = StyleSheet.create({
     minWidth: 90,
     maxWidth: 90,
     backgroundColor: '#004a99'
-}
+  },
+  font : {
+    color: '#f0f2f5',
+    fontSize: 15,
+    fontWeight:'bold',
+  }
 });
 
 export default Timer;
