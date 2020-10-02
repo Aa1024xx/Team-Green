@@ -2,21 +2,43 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import UserContext from "../UserContext"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-
+import {firebase} from '../../config/firebase'
 
 const Timer = () => {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
+
+  const [user, setUser] = useState({});
+
+  const [usr, setUsr] = useState({});
+
+  useEffect(() => {
+    const db = firebase.database().ref('users');
+    db.on('value', snap => {
+      if (snap.val()) {
+        setUser(snap.val());
+      }
+    }, error => console.log(error));
+  }, []);
+
+  // const usr = user.a;
+  useEffect(()=>{
+    if ("a" in user) {
+      setUsr(user.a);
+    }
+  }, [user])
+
   const [time, setTime] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
   const [completedTask, setCompletedTask] = useState(false);
   const [isStopped, setIsStopped] = useState(true);
 
-  const timerDuration = 60 * 25; 
+  const timerDuration = 60 * 0.5; 
 
   useEffect(() => {  
     if (time===0 && !isPaused){
       setIsPaused(true);
       setCompletedTask(true);
+      incrementFish(usr.id);
     }
     else if (!isPaused) {
       setTimeout(() => {
@@ -25,6 +47,10 @@ const Timer = () => {
       }, 1000)
     }
   }, [time, isPaused]);
+
+  function incrementFish(userId) {
+    firebase.database().ref('users').child(userId).child('fish').set(usr.fish +1);
+  }
 
   function startTimer() {
     setTime(timerDuration);

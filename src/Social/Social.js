@@ -1,34 +1,63 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import Fish from './Fish.js';
 import UserContext from "../UserContext"
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import {firebase} from '../../config/firebase'
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
+
 const Social = () => {
-  const user = useContext(UserContext);
-  const [selectedValue, setSelectedValue] = useState(user.name);
-  const [fishArray, setFishArray] = useState(new Array(user.fish).fill(0));
+  // const user = useContext(UserContext); 
+
+  const [user, setUser] = useState({});
+  const [usr, setUsr] = useState({"friends":[]});
+
+  const [selectedValue, setSelectedValue] = useState("");
+  const [fishArray, setFishArray] = useState([]);
+
+  useEffect(() => {
+    const db = firebase.database().ref('users');
+    db.on('value', snap => {
+      if (snap.val()) {
+        setUser(snap.val());
+      }
+    }, error => console.log(error));
+  }, []);
+
+  // Currently user being the users list from JSON and usr being the individual user
+  // const usr = user.a;
+  useEffect(()=>{
+    if ("a" in user) {
+      setUsr(user.a);
+      setSelectedValue(user.a.name);
+      setFishArray(new Array(user.a.fish).fill(0));
+    }
+  }, [user])
+
 
   function changeFishTank(itemValue) {
     setSelectedValue(itemValue);
-    if (itemValue === "John"){
-      setFishArray(new Array(itemValue.fish).fill(0));
-    }
-    else{
-      setFishArray(new Array(8).fill(0));
-    }
+    setFishArray(new Array(user[itemValue].fish).fill(0));
   }
 
   function getFriendsList(friends) {
     let friendArr = [];
-    friendArr.push({label: user.name, value: user.name});
-    for(let i = 0; i < friends.length; i++){
-      friendArr.push({label: friends[i], value: friends[i]});
+    friendArr.push({label: usr.name, value: usr.id});
+    // friendArr.push({label: user.name, value: user.name});
+
+    let friendIDs = Object.keys(friends);
+    let friendNames = Object.values(friends);
+
+    for(let i = 0; i < friendNames.length; i++){
+      friendArr.push({label: friendNames[i], value: friendIDs[i]});
     }
     return friendArr;
   }
+
+
 
   const pickerStyle = {
     inputIOS: {
@@ -74,13 +103,13 @@ const Social = () => {
   };
 
   return (
-    
     <View style={styles.container}>
       <View style={styles.pickerContainer}>
         <RNPickerSelect 
           style={pickerStyle}
           onValueChange={(itemValue) => changeFishTank(itemValue)}
-          items={getFriendsList(user.friends)}
+          items={getFriendsList(usr.friends)}
+          // items={getFriendsList(user.friends)}
           placeholder={{}}
         />
       </View>
@@ -89,7 +118,6 @@ const Social = () => {
       ))}
 
     </View>
-
   );
 }
 
