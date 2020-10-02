@@ -13,7 +13,7 @@ const Timer = () => {
 
   const timerDuration = 60 * 25; 
 
-  useEffect(() => {
+  useEffect(() => {  
     if (time===0 && !isPaused){
       setIsPaused(true);
       setCompletedTask(true);
