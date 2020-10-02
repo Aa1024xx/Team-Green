@@ -1,17 +1,25 @@
 // package dependencies
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import { MaterialCommunityIcons, AntDesign, FontAwesome } from '@expo/vector-icons';
+import { createContext } from 'react';
+import UserContext from "./src/UserContext"
+import {firebase} from './config/firebase'
+
+import userJSON from './test_data/users.json'
 
 // components
 import Profile from './src/Profile/Profile.js';
 import Social from './src/Social/Social.js';
 import Timer from './src/Timer/Timer.js';
 
+
+
 export default function App() {
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -41,7 +49,7 @@ export default function App() {
       >
         <Tab.Screen name="Social" component={Social} />
         <Tab.Screen name="Timer" component={Timer} />
-        <Tab.Screen name="Profile" component={Profile} />
+        {/* <Tab.Screen name="Profile" component={Profile} /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
